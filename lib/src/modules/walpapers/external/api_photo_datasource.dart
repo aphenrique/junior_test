@@ -25,7 +25,7 @@ class ApiPhotoDatasource implements PhotoDatasource {
   @override
   Future<PhotoEntity> getPhotoById(int photoId) async {
     try {
-      final result = await service.get('photos/$photoId');
+      final result = await service.get('photos/${photoId.toString()}');
 
       final PhotoEntity photo = PhotoEntityDto.fromMap(result);
 
