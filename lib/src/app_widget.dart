@@ -6,8 +6,6 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      
-    ).modular();
+    return const MaterialApp().modular();
   }
 }
