@@ -48,3 +48,5 @@ app.*.map.json
 .fvm
 .env
 .vscode
+
+/lib/environment_config.dart
