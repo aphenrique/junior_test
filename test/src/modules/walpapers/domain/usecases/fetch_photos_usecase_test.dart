@@ -13,18 +13,19 @@ void main() {
 
   test('Return photos list', () async {
     const int apiPage = 1;
+    const int perPage = 1;
     // when
-    when(() => repository.fetchPhotos(apiPage))
+    when(() => repository.fetchPhotos(apiPage, perPage))
         .thenAnswer((_) async => right(<PhotoEntity>[]));
 
     // do
-    final result = await usecase(apiPage);
+    final result = await usecase(apiPage, perPage);
 
     // expected
     // expect(result, isA<List<PhotoEntity>>());
     expect(result.isRight, true);
 
-    verify(() => repository.fetchPhotos(apiPage)).called(1);
+    verify(() => repository.fetchPhotos(apiPage, perPage)).called(1);
     verifyNoMoreInteractions(repository);
   });
 }

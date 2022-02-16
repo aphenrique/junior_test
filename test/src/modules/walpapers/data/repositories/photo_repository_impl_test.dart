@@ -13,17 +13,18 @@ void main() {
   test('photo repository impl ...', () async {
     // when
     const int apiPage = 1;
-    when(() => datasource.fetchPhotos(apiPage))
+    const int perPage = 1;
+    when(() => datasource.fetchPhotos(apiPage, perPage))
         .thenAnswer((_) async => <PhotoEntity>[]);
 
     // do
-    final result = await repository.fetchPhotos(apiPage);
+    final result = await repository.fetchPhotos(apiPage, perPage);
 
     // expect
     // expect(result, isA<List<PhotoEntity>>());
     expect(result.isRight, true);
 
-    verify(() => datasource.fetchPhotos(apiPage)).called(1);
+    verify(() => datasource.fetchPhotos(apiPage, perPage)).called(1);
     verifyNoMoreInteractions(datasource);
   });
 }

@@ -10,10 +10,11 @@ void main() {
     final datasource = ApiPhotoDatasource(service);
 
     const int apiPage = 1;
+    const int perPage = 2;
 
-    final result = await datasource.fetchPhotos(apiPage);
+    final result = await datasource.fetchPhotos(apiPage, perPage);
 
     expect(result, isA<List<PhotoEntity>>());
-    expect(result.length, 20);
+    expect(result.length, 2);
   });
 }
