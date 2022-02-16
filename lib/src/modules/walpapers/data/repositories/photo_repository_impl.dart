@@ -11,9 +11,9 @@ class PhotoRepositoryImpl implements PhotoRepository {
 
   @override
   Future<Either<PhotoRepositoryException, List<PhotoEntity>>> fetchPhotos(
-      int apiPage) async {
+      int apiPage, int perPage) async {
     try {
-      var result = await _datasource.fetchPhotos(apiPage);
+      var result = await _datasource.fetchPhotos(apiPage, perPage);
 
       return right(result);
     } catch (e) {
@@ -23,10 +23,10 @@ class PhotoRepositoryImpl implements PhotoRepository {
   }
 
   @override
-  Future<Either<PhotoRepositoryException, PhotoEntity>> getPhotoDetailById(
-      int photoId) async {
+  Future<Either<PhotoRepositoryException, PhotoEntity>> searchPhotos(
+      String query, int perPage) async {
     try {
-      var result = await _datasource.getPhotoById(photoId);
+      var result = await _datasource.searchPhotos(query, perPage);
 
       return right(result);
     } catch (e) {

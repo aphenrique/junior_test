@@ -4,7 +4,7 @@ import 'package:fteam_test/src/modules/walpapers/domain/erros/photo_exception.da
 
 abstract class PhotoRepository {
   Future<Either<PhotoRepositoryException, List<PhotoEntity>>> fetchPhotos(
-      int apiPage);
-  Future<Either<PhotoRepositoryException, PhotoEntity>> getPhotoDetailById(
-      int photoId);
+      int apiPage, int perPage);
+  Future<Either<PhotoRepositoryException, PhotoEntity>> searchPhotos(
+      String query, int perPage);
 }

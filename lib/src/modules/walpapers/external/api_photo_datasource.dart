@@ -10,9 +10,8 @@ class ApiPhotoDatasource implements PhotoDatasource {
   ApiPhotoDatasource(this.service);
 
   @override
-  Future<List<PhotoEntity>> fetchPhotos(int page) async {
-    final result =
-        await service.get('curated?page=${page.toString}&per_page=20');
+  Future<List<PhotoEntity>> fetchPhotos(int apiPage, int perPage) async {
+    final result = await service.get("curated?page=$apiPage&per_page=$perPage");
 
     var list = result['photos'] as List;
 
@@ -23,9 +22,9 @@ class ApiPhotoDatasource implements PhotoDatasource {
   }
 
   @override
-  Future<PhotoEntity> getPhotoById(int photoId) async {
+  Future<PhotoEntity> searchPhotos(String query, int perPage) async {
     try {
-      final result = await service.get('photos/${photoId.toString()}');
+      final result = await service.get("search?query=$query&per_page=$perPage");
 
       final PhotoEntity photo = PhotoEntityDto.fromMap(result);
 
