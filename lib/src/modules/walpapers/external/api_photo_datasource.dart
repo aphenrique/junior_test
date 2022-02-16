@@ -22,13 +22,16 @@ class ApiPhotoDatasource implements PhotoDatasource {
   }
 
   @override
-  Future<PhotoEntity> searchPhotos(String query, int perPage) async {
+  Future<List<PhotoEntity>> searchPhotos(String query, int perPage) async {
     try {
       final result = await service.get("search?query=$query&per_page=$perPage");
 
-      final PhotoEntity photo = PhotoEntityDto.fromMap(result);
+      var list = result['photos'] as List;
 
-      return photo;
+      List<PhotoEntity> photos =
+          list.map((e) => PhotoEntityDto.fromMap(e)).toList();
+
+      return photos;
     } catch (e) {
       throw PhotoDatasourceException(e.toString());
     }
