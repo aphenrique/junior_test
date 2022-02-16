@@ -24,9 +24,9 @@ class PhotoRepositoryImpl implements PhotoRepository {
 
   @override
   Future<Either<PhotoRepositoryException, List<PhotoEntity>>> searchPhotos(
-      String query, int perPage) async {
+      String query, int apiPage, int perPage) async {
     try {
-      var result = await _datasource.searchPhotos(query, perPage);
+      var result = await _datasource.searchPhotos(query, apiPage, perPage);
 
       return right(result);
     } catch (e) {

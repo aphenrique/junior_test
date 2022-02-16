@@ -5,7 +5,7 @@ import 'package:fteam_test/src/modules/walpapers/domain/repositories/photo_repos
 
 abstract class SearchPhotosUsecase {
   Future<Either<PhotoRepositoryException, List<PhotoEntity>>> call(
-      String query, int perPage);
+      String query, int apiPage, int perPage);
 }
 
 class SearchPhotosUsecaseImpl implements SearchPhotosUsecase {
@@ -15,7 +15,7 @@ class SearchPhotosUsecaseImpl implements SearchPhotosUsecase {
 
   @override
   Future<Either<PhotoRepositoryException, List<PhotoEntity>>> call(
-      String query, int perPage) async {
-    return await _repository.searchPhotos(query, perPage);
+      String query, int apiPage, int perPage) async {
+    return await _repository.searchPhotos(query, apiPage, perPage);
   }
 }

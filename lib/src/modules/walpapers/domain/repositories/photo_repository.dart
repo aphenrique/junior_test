@@ -6,5 +6,5 @@ abstract class PhotoRepository {
   Future<Either<PhotoRepositoryException, List<PhotoEntity>>> fetchPhotos(
       int apiPage, int perPage);
   Future<Either<PhotoRepositoryException, List<PhotoEntity>>> searchPhotos(
-      String query, int perPage);
+      String query, int apiPage, int perPage);
 }
