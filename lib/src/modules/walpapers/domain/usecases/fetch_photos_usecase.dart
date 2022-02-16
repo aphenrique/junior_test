@@ -4,7 +4,7 @@ import 'package:fteam_test/src/modules/walpapers/domain/erros/photo_exception.da
 import 'package:fteam_test/src/modules/walpapers/domain/repositories/photo_repository.dart';
 
 abstract class FetchPhotosUsecase {
-  Future<Either<PhotoRepositoryException, List<PhotoEntity>>> call(int apiPage);
+  Future<Either<PhotoRepositoryException, List<PhotoEntity>>> call(int apiPage, int perPage);
 }
 
 class FetchPhotosUsecaseImpl implements FetchPhotosUsecase {
@@ -13,12 +13,8 @@ class FetchPhotosUsecaseImpl implements FetchPhotosUsecase {
   FetchPhotosUsecaseImpl(this._repository);
 
   @override
-  Future<Either<PhotoRepositoryException, List<PhotoEntity>>> call(int apiPage) async {
-    
-    if(apiPage is int){
-
-    }
-
-    return await _repository.fetchPhotos(apiPage);
+  Future<Either<PhotoRepositoryException, List<PhotoEntity>>> call(
+      int apiPage, int perPage) async {
+    return await _repository.fetchPhotos(apiPage, perPage);
   }
 }
