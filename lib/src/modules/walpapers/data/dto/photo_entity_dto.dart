@@ -4,12 +4,12 @@ class PhotoEntityDto extends PhotoEntity {
   PhotoEntityDto({
     required String originalPath,
   }) : super(
-          originalPath: originalPath,
+          photoPath: originalPath,
         );
 
   Map<String, dynamic> toMap() {
     return {
-      'originalPath': originalPath,
+      'originalPath': photoPath,
     };
   }
 

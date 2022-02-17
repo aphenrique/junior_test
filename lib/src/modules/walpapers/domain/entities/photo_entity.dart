@@ -1,7 +1,7 @@
 class PhotoEntity {
-  final String originalPath;
+  final String photoPath;
 
   PhotoEntity({
-    required this.originalPath,
+    required this.photoPath,
   });
 }
