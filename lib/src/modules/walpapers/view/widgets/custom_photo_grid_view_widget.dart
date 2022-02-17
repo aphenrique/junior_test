@@ -13,7 +13,7 @@ class CustomPhotoGridViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          childAspectRatio: 0.7,
+          childAspectRatio: MediaQuery.of(context).size.aspectRatio,
           maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.5,
           mainAxisSpacing: 8,
           crossAxisSpacing: 8),
@@ -21,7 +21,7 @@ class CustomPhotoGridViewWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final photo = photos[index];
 
-        return CustomSmallPhotoWidget(photoPath: photo.tinyPath);
+        return CustomSmallPhotoWidget(photoPath: photo.photoPath);
       },
     );
   }
