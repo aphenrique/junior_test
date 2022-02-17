@@ -2,7 +2,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:fteam_test/src/modules/walpapers/data/repositories/photo_repository_impl.dart';
 import 'package:fteam_test/src/modules/walpapers/domain/usecases/fetch_photos_usecase.dart';
 import 'package:fteam_test/src/modules/walpapers/external/api_photo_datasource.dart';
-import 'package:fteam_test/src/modules/walpapers/view/blocs/photo_page_params.dart';
 import 'package:fteam_test/src/modules/walpapers/view/blocs/photos_bloc.dart';
 import 'package:fteam_test/src/modules/walpapers/view/pages/list_photos_page.dart';
 
@@ -13,7 +12,6 @@ class PhotosModule extends Module {
         Bind.singleton((i) => PhotoRepositoryImpl(i())),
         Bind.singleton((i) => FetchPhotosUsecaseImpl(i())),
         Bind.lazySingleton((i) => PhotosBloc(i())),
-        Bind.singleton((i) => PhotoPageParams()),
       ];
 
   @override
