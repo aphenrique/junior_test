@@ -14,7 +14,9 @@ class CustomSmallPhotoWidget extends StatelessWidget {
       height: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: NetworkImage(photoPath), fit: BoxFit.fitHeight),
+          image: NetworkImage(photoPath),
+          fit: BoxFit.cover,
+        ),
         borderRadius: BorderRadius.circular(8),
       ),
     );
