@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:fteam_test/src/core/colors/app_colors.dart';
 import 'package:fteam_test/src/modules/walpapers/view/blocs/events/photos_event.dart';
-import 'package:fteam_test/src/modules/walpapers/view/blocs/fetch_photos_bloc.dart';
-import 'package:fteam_test/src/modules/walpapers/view/blocs/states/fetch_photos_state.dart';
+import 'package:fteam_test/src/modules/walpapers/view/blocs/photos_bloc.dart';
+import 'package:fteam_test/src/modules/walpapers/view/blocs/states/photos_state.dart';
+import 'package:fteam_test/src/modules/walpapers/view/components/per_page_slide_component.dart';
+import 'package:fteam_test/src/modules/walpapers/view/stores/per_page_store.dart';
 import 'package:fteam_test/src/modules/walpapers/view/widgets/custom_photo_grid_view_widget.dart';
 import 'package:fteam_test/src/modules/walpapers/view/widgets/custom_search_bar_widget.dart';
 
@@ -16,15 +18,18 @@ class ListPhotosPage extends StatefulWidget {
 }
 
 class _ListPhotosPageState extends State<ListPhotosPage> {
-  final fetchPhotosBloc = Modular.get<FetchPhotosBloc>();
-
-  int apiPage = 1;
-  int perPage = 10;
+  final photosBloc = Modular.get<PhotosBloc>();
+  final perPage = Modular.get<PerPageStore>();
 
   @override
   void initState() {
     super.initState();
-    fetchPhotosBloc.add(FetchPhotosEvent(apiPage: apiPage, perPage: perPage));
+    photosBloc.add(
+      FetchPhotosEvent(
+        apiPage: 1,
+        perPage: perPage.value,
+      ),
+    );
   }
 
   @override
@@ -41,7 +46,10 @@ class _ListPhotosPageState extends State<ListPhotosPage> {
             letterSpacing: 2.0,
           ),
         ),
-        bottom: const CustomSerchBarWidget(),
+        actions: [
+          const PerPageSlideComponent(),
+        ],
+        bottom: CustomSerchBarWidget(),
       ),
       body: Column(
         children: [
@@ -50,12 +58,26 @@ class _ListPhotosPageState extends State<ListPhotosPage> {
             fallbackHeight: 40,
           ),
           Expanded(
-            child: BlocBuilder<FetchPhotosBloc, FetchPhotosState>(
-              bloc: fetchPhotosBloc,
+            child: BlocBuilder<PhotosBloc, PhotosState>(
+              bloc: photosBloc,
               builder: (context, state) {
                 if (state is FetchPhotosError) {
-                  return Center(
-                    child: Text(state.message),
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        state.message,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          photosBloc.add(
+                            FetchPhotosEvent(apiPage: 1, perPage: 1),
+                          );
+                        },
+                        child: const Text('Tentar novamente'),
+                      ),
+                    ],
                   );
                 }
 
@@ -66,8 +88,13 @@ class _ListPhotosPageState extends State<ListPhotosPage> {
                       onNotification: (notification) {
                         if (notification.metrics.pixels ==
                             notification.metrics.maxScrollExtent) {
-                          fetchPhotosBloc.add(FetchPhotosEvent(
-                              apiPage: apiPage++, perPage: perPage));
+                          photosBloc.add(
+                            FetchPhotosEvent(
+                              query: null,
+                              apiPage: 1,
+                              perPage: perPage.value,
+                            ),
+                          );
                           return true;
                         }
 
