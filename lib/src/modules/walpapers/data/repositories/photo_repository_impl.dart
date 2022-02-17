@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fteam_test/src/core/utils/either.dart';
 import 'package:fteam_test/src/modules/walpapers/data/datasouces/photo_datasource.dart';
 import 'package:fteam_test/src/modules/walpapers/domain/entities/photo_entity.dart';
@@ -10,27 +12,21 @@ class PhotoRepositoryImpl implements PhotoRepository {
   PhotoRepositoryImpl(this._datasource);
 
   @override
-  Future<Either<PhotoRepositoryException, List<PhotoEntity>>> fetchPhotos(
-      int apiPage, int perPage) async {
+  Future<Either<PhotoException, List<PhotoEntity>>> fetchPhotos(
+      {String? query, required int apiPage, required int perPage}) async {
     try {
-      var result = await _datasource.fetchPhotos(apiPage, perPage);
+      List<PhotoEntity> result;
 
+      if (query != null) {
+        result = await _datasource.searchPhotos(
+            query: query, apiPage: apiPage, perPage: perPage);
+      } else {
+        result =
+            await _datasource.fetchPhotos(apiPage: apiPage, perPage: perPage);
+      }
       return right(result);
-    } catch (e) {
-      return left(
-          PhotoRepositoryException('Falha ao buscar os dados no datasource!'));
-    }
-  }
-
-  @override
-  Future<Either<PhotoRepositoryException, List<PhotoEntity>>> searchPhotos(
-      String query, int apiPage, int perPage) async {
-    try {
-      var result = await _datasource.searchPhotos(query, apiPage, perPage);
-
-      return right(result);
-    } catch (e) {
-      throw PhotoRepositoryException('Falha ao buscar os dados no datasource!');
+    } on PhotoDatasourceException catch (e) {
+      return left(PhotoDatasourceException(e.toString()));
     }
   }
 }
