@@ -10,21 +10,51 @@ void main() {
   final datasource = PhotoDatasourceMock();
   final repository = PhotoRepositoryImpl(datasource);
 
-  test('photo repository impl ...', () async {
-    // when
+  test('Should return right to fetch photo list', () async {
     const int apiPage = 1;
     const int perPage = 1;
-    when(() => datasource.fetchPhotos(apiPage, perPage))
+
+    // when
+    when(() => datasource.fetchPhotos(apiPage: apiPage, perPage: perPage))
         .thenAnswer((_) async => <PhotoEntity>[]);
 
     // do
-    final result = await repository.fetchPhotos(apiPage, perPage);
+    final result =
+        await repository.fetchPhotos(apiPage: apiPage, perPage: perPage);
+
+    // final expectedValue = result.fold((l) => l, (r) => r);
 
     // expect
-    // expect(result, isA<List<PhotoEntity>>());
     expect(result.isRight, true);
 
-    verify(() => datasource.fetchPhotos(apiPage, perPage)).called(1);
+    verify(() => datasource.fetchPhotos(apiPage: apiPage, perPage: perPage))
+        .called(1);
+    verifyNoMoreInteractions(datasource);
+  });
+
+  test('Should return right to fetch photo list by search', () async {
+    const int apiPage = 1;
+    const int perPage = 1;
+    const String query = 'any';
+
+    // when
+    when(() => datasource.searchPhotos(
+          query: query,
+          apiPage: apiPage,
+          perPage: perPage,
+        )).thenAnswer((_) async => <PhotoEntity>[]);
+
+    // do
+    final result = await repository.fetchPhotos(
+        query: query, apiPage: apiPage, perPage: perPage);
+
+    final expectedValue = result.fold((l) => l, (r) => r);
+
+    // expect
+    expect(expectedValue, isA<List<PhotoEntity>>());
+
+    verify(() => datasource.searchPhotos(
+        query: query, apiPage: apiPage, perPage: perPage)).called(1);
     verifyNoMoreInteractions(datasource);
   });
 }
