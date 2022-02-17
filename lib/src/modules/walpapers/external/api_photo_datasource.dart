@@ -10,7 +10,8 @@ class ApiPhotoDatasource implements PhotoDatasource {
   ApiPhotoDatasource(this.service);
 
   @override
-  Future<List<PhotoEntity>> fetchPhotos(int apiPage, int perPage) async {
+  Future<List<PhotoEntity>> fetchPhotos(
+      {required int apiPage, required int perPage}) async {
     final result = await service.get("curated?page=$apiPage&per_page=$perPage");
 
     var list = result['photos'] as List;
@@ -23,7 +24,9 @@ class ApiPhotoDatasource implements PhotoDatasource {
 
   @override
   Future<List<PhotoEntity>> searchPhotos(
-      String query, int apiPage, int perPage) async {
+      {required String query,
+      required int apiPage,
+      required int perPage}) async {
     try {
       final result = await service
           .get("search?query=$query&page=$apiPage&per_page=$perPage");
@@ -34,6 +37,9 @@ class ApiPhotoDatasource implements PhotoDatasource {
           list.map((e) => PhotoEntityDto.fromMap(e)).toList();
 
       return photos;
+    } on LostInternetConnection catch (_) {
+      throw PhotoDatasourceException(
+          'Falha na conexão, \ntente novamente mais tarde!');
     } catch (e) {
       throw PhotoDatasourceException(e.toString());
     }
