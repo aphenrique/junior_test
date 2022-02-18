@@ -15,11 +15,7 @@ class FetchPhotosSucess extends PhotosState {
 class FetchPhotosError extends PhotosState {
   final String message;
 
-  FetchPhotosError(
-    this.message,
-  );
+  FetchPhotosError(this.message);
 }
 
-class FetchPhotosLoading extends PhotosState {
-  FetchPhotosLoading();
-}
+class FetchPhotosLoading extends PhotosState {}
