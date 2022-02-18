@@ -27,7 +27,8 @@ class CustomSerchBarWidget extends StatelessWidget implements PreferredSize {
         textInputAction: TextInputAction.search,
         onSubmitted: (value) {
           pageParams.resetApiPage();
-          pageParams.setQuery(value);
+
+          pageParams.setQuery(value.trim().isNotEmpty ? value : null);
 
           photosBloc.add(
             FetchPhotosEvent(
