@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:fteam_test/src/modules/walpapers/domain/usecases/download_photo_usecase.dart';
+import 'package:fteam_test/src/modules/walpapers/view/widgets/download_button_widget.dart';
 
 class PhotoDetailPage extends StatelessWidget {
   final String imagePath;
 
-  const PhotoDetailPage({
+  PhotoDetailPage({
     Key? key,
     required this.imagePath,
   }) : super(key: key);
+
+  final downloadUsecase = Modular.get<DownloadPhotoUsecase>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,27 +44,8 @@ class PhotoDetailPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(24.0),
-            child: ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                'DOWNLOAD',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.all(12),
-                ),
-                fixedSize: MaterialStateProperty.all<Size>(
-                  Size(MediaQuery.of(context).size.width - 40, 50),
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-              ),
+            child: DownloadButtonWidget(
+              onPressed: () => downloadUsecase(imagePath: imagePath),
             ),
           ),
         ],
