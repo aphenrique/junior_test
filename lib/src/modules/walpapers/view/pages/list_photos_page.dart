@@ -4,6 +4,7 @@ import 'package:fteam_test/src/core/colors/app_colors.dart';
 import 'package:fteam_test/src/modules/walpapers/view/blocs/photos_bloc.dart';
 import 'package:fteam_test/src/modules/walpapers/view/blocs/stores/page_params_store.dart';
 import 'package:fteam_test/src/modules/walpapers/view/components/per_page_slide_component.dart';
+import 'package:fteam_test/src/modules/walpapers/view/widgets/categories_list_widget.dart';
 import 'package:fteam_test/src/modules/walpapers/view/widgets/custom_photo_grid_view_widget.dart';
 import 'package:fteam_test/src/modules/walpapers/view/widgets/custom_search_bar_widget.dart';
 
@@ -39,11 +40,7 @@ class _ListPhotosPageState extends State<ListPhotosPage> {
       ),
       body: Column(
         children: [
-          Row(),
-          const Placeholder(
-            color: Colors.red,
-            fallbackHeight: 40,
-          ),
+          CategoriesListWidget(),
           const Expanded(
             child: CustomPhotoGridViewWidget(),
           ),
