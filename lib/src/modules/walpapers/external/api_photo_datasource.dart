@@ -12,14 +12,22 @@ class ApiPhotoDatasource implements PhotoDatasource {
   @override
   Future<List<PhotoEntity>> fetchPhotos(
       {required int apiPage, required int perPage}) async {
-    final result = await service.get("curated?page=$apiPage&per_page=$perPage");
+    try {
+      final result =
+          await service.get("curated?page=$apiPage&per_page=$perPage");
 
-    var list = result['photos'] as List;
+      var list = result['photos'] as List;
 
-    List<PhotoEntity> photos =
-        list.map((e) => PhotoEntityDto.fromMap(e)).toList();
+      List<PhotoEntity> photos =
+          list.map((e) => PhotoEntityDto.fromMap(e)).toList();
 
-    return photos;
+      return photos;
+    } on LostInternetConnection catch (_) {
+      throw PhotoDatasourceException(
+          'Falha na conexão, \ntente novamente mais tarde!');
+    } catch (e) {
+      throw PhotoDatasourceException(e.toString());
+    }
   }
 
   @override
@@ -38,8 +46,7 @@ class ApiPhotoDatasource implements PhotoDatasource {
 
       return photos;
     } on LostInternetConnection catch (_) {
-      throw PhotoDatasourceException(
-          'Falha na conexão, \ntente novamente mais tarde!');
+      throw PhotoDatasourceException('Falha na conexão!');
     } catch (e) {
       throw PhotoDatasourceException(e.toString());
     }
