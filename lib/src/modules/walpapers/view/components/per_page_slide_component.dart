@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:fteam_test/src/core/colors/app_colors.dart';
-import 'package:fteam_test/src/modules/walpapers/view/stores/per_page_store.dart';
+import 'package:fteam_test/src/modules/walpapers/view/blocs/stores/page_params_store.dart';
 
 class PerPageSlideComponent extends StatefulWidget {
   const PerPageSlideComponent({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class PerPageSlideComponent extends StatefulWidget {
 }
 
 class _PerPageSlideComponentState extends State<PerPageSlideComponent> {
-  final perPage = Modular.get<PerPageStore>();
+  final pageParams = Modular.get<PageParamsStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +26,15 @@ class _PerPageSlideComponentState extends State<PerPageSlideComponent> {
         return [
           PopupMenuItem(
             child: ValueListenableBuilder<int>(
-              valueListenable: perPage,
+              valueListenable: pageParams.perpage,
               builder: (context, value, child) => Column(
                 children: [
                   Text(
                     '$value fotos por página',
                     style: const TextStyle(
-                        color: AppColors.customColor,
-                        fontWeight: FontWeight.bold),
+                      color: AppColors.customColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Slider(
                     min: 4,
@@ -41,7 +42,9 @@ class _PerPageSlideComponentState extends State<PerPageSlideComponent> {
                     divisions: 8,
                     value: value.toDouble(),
                     onChanged: (double value) {
-                      perPage.setPerPage(value.toInt());
+                      pageParams.setPerPage(
+                        value.toInt(),
+                      );
                     },
                   ),
                 ],
