@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fteam_test/src/modules/walpapers/domain/entities/photo_entity.dart';
 
 abstract class PhotoDatasource {

@@ -15,7 +15,7 @@ class PhotoEntityDto extends PhotoEntity {
 
   factory PhotoEntityDto.fromMap(Map<String, dynamic> map) {
     return PhotoEntityDto(
-      originalPath: map['src']['large'] ?? '',
+      originalPath: map['src']['tiny'] ?? '',
     );
   }
 }
