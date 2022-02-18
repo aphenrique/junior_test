@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fteam_test/src/core/utils/either.dart';
 import 'package:fteam_test/src/modules/walpapers/data/datasouces/photo_datasource.dart';
 import 'package:fteam_test/src/modules/walpapers/domain/entities/photo_entity.dart';
