@@ -9,7 +9,19 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'F-Team Test',
-      theme: ThemeData(primarySwatch: AppColors.customColor),
+      theme: ThemeData(
+        primarySwatch: AppColors.customColor,
+        snackBarTheme: SnackBarThemeData(
+            backgroundColor: AppColors.customColor,
+            contentTextStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+            behavior: SnackBarBehavior.floating,
+            elevation: 8),
+      ),
     ).modular();
   }
 }
