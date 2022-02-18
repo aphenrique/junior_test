@@ -11,7 +11,7 @@ class PageParamsStore {
   void resetApiPage() => _apiPage.value++;
 
   void resetQuery() => _query.value = null;
-  void setQuery(query) => query.value = query;
+  void setQuery(query) => _query.value = query;
 
   int get apiPage => _apiPage.value;
   int get perPage => perpage.value;
