@@ -2,9 +2,7 @@ import '../../../domain/entities/photo_entity.dart';
 
 abstract class PhotosState {}
 
-class FetchPhotosInitial extends PhotosState {
-  final List<PhotoEntity> photos = [];
-}
+class FetchPhotosInitial extends PhotosState {}
 
 class FetchPhotosSucess extends PhotosState {
   final List<PhotoEntity> photos;
