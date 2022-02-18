@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class CustomSmallPhotoWidget extends StatelessWidget {
   final String photoPath;
@@ -10,14 +11,19 @@ class CustomSmallPhotoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(photoPath),
-          fit: BoxFit.cover,
+    return InkResponse(
+      onTap: () {
+        Modular.to.pushNamed('/photoDetail', arguments: photoPath);
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(photoPath),
+            fit: BoxFit.cover,
+          ),
+          borderRadius: BorderRadius.circular(8),
         ),
-        borderRadius: BorderRadius.circular(8),
       ),
     );
   }
