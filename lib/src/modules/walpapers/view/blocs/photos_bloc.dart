@@ -11,7 +11,10 @@ class PhotosBloc extends Bloc<PhotosEvent, PhotosState> {
   }
 
   fetchPhotos(FetchPhotosEvent event, Emitter<PhotosState> emit) async {
-    if (event.apiPage == 1) emit(FetchPhotosInitial());
+    if (event.apiPage == 1) {
+      emit(FetchPhotosInitial());
+      await Future.delayed(const Duration(milliseconds: 200));
+    }
 
     emit(FetchPhotosLoading());
 
