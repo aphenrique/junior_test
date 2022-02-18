@@ -8,7 +8,7 @@ class PageParamsStore {
   void setPerPage(int value) => perpage.value = value;
 
   void incrementApiPage() => _apiPage.value++;
-  void resetApiPage() => _apiPage.value++;
+  void resetApiPage() => _apiPage.value = 1;
 
   void resetQuery() => _query.value = null;
   void setQuery(query) => _query.value = query;
