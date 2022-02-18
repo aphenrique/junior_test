@@ -6,7 +6,7 @@ import 'package:fteam_test/src/modules/walpapers/view/blocs/events/photos_event.
 import 'package:fteam_test/src/modules/walpapers/view/blocs/photos_bloc.dart';
 import 'package:fteam_test/src/modules/walpapers/view/blocs/states/photos_state.dart';
 import 'package:fteam_test/src/modules/walpapers/view/components/per_page_slide_component.dart';
-import 'package:fteam_test/src/modules/walpapers/view/stores/per_page_store.dart';
+import 'package:fteam_test/src/modules/walpapers/view/blocs/stores/page_params_store.dart';
 import 'package:fteam_test/src/modules/walpapers/view/widgets/custom_photo_grid_view_widget.dart';
 import 'package:fteam_test/src/modules/walpapers/view/widgets/custom_search_bar_widget.dart';
 
@@ -19,15 +19,15 @@ class ListPhotosPage extends StatefulWidget {
 
 class _ListPhotosPageState extends State<ListPhotosPage> {
   final photosBloc = Modular.get<PhotosBloc>();
-  final perPage = Modular.get<PerPageStore>();
+  final pageParams = Modular.get<PageParamsStore>();
 
   @override
   void initState() {
     super.initState();
     photosBloc.add(
       FetchPhotosEvent(
-        apiPage: 1,
-        perPage: perPage.value,
+        apiPage: pageParams.apiPage,
+        perPage: pageParams.perPage,
       ),
     );
   }
@@ -46,13 +46,14 @@ class _ListPhotosPageState extends State<ListPhotosPage> {
             letterSpacing: 2.0,
           ),
         ),
-        actions: [
-          const PerPageSlideComponent(),
+        actions: const [
+          PerPageSlideComponent(),
         ],
         bottom: CustomSerchBarWidget(),
       ),
       body: Column(
         children: [
+          Row(),
           const Placeholder(
             color: Colors.red,
             fallbackHeight: 40,
@@ -69,10 +70,15 @@ class _ListPhotosPageState extends State<ListPhotosPage> {
                         state.message,
                         style: const TextStyle(color: Colors.white),
                       ),
+                      const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
                           photosBloc.add(
-                            FetchPhotosEvent(apiPage: 1, perPage: 1),
+                            FetchPhotosEvent(
+                              query: pageParams.query,
+                              apiPage: pageParams.apiPage,
+                              perPage: pageParams.perPage,
+                            ),
                           );
                         },
                         child: const Text('Tentar novamente'),
@@ -88,11 +94,13 @@ class _ListPhotosPageState extends State<ListPhotosPage> {
                       onNotification: (notification) {
                         if (notification.metrics.pixels ==
                             notification.metrics.maxScrollExtent) {
+                          pageParams.incrementApiPage();
+
                           photosBloc.add(
                             FetchPhotosEvent(
-                              query: null,
-                              apiPage: 1,
-                              perPage: perPage.value,
+                              query: pageParams.query,
+                              apiPage: pageParams.apiPage,
+                              perPage: pageParams.perPage,
                             ),
                           );
                           return true;
