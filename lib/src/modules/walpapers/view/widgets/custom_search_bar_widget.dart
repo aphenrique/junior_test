@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:fteam_test/src/core/colors/app_colors.dart';
+import 'package:fteam_test/src/modules/walpapers/view/blocs/events/photos_event.dart';
+import 'package:fteam_test/src/modules/walpapers/view/blocs/photos_bloc.dart';
+import 'package:fteam_test/src/modules/walpapers/view/blocs/stores/page_params_store.dart';
 
 class CustomSerchBarWidget extends StatelessWidget implements PreferredSize {
-  const CustomSerchBarWidget({Key? key}) : super(key: key);
+  CustomSerchBarWidget({Key? key}) : super(key: key);
+
+  final photosBloc = Modular.get<PhotosBloc>();
+  final pageParams = Modular.get<PageParamsStore>();
 
   @override
   Widget get child => Container();
@@ -17,6 +24,19 @@ class CustomSerchBarWidget extends StatelessWidget implements PreferredSize {
       height: 80,
       child: TextField(
         cursorColor: AppColors.searchFieldColor,
+        textInputAction: TextInputAction.search,
+        onSubmitted: (value) {
+          pageParams.resetApiPage();
+          pageParams.setQuery(value);
+
+          photosBloc.add(
+            FetchPhotosEvent(
+              query: pageParams.query,
+              apiPage: pageParams.apiPage,
+              perPage: pageParams.perPage,
+            ),
+          );
+        },
         style: const TextStyle(
           color: AppColors.searchFieldColor,
         ),
