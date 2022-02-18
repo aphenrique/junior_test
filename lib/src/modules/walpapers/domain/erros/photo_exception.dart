@@ -5,10 +5,30 @@ abstract class PhotoException implements Exception {
   PhotoException(this.message, [this.stackTrace]);
 }
 
+class PhotoParamsException extends PhotoException {
+  PhotoParamsException(
+    String message, [
+    StackTrace? stackTrace,
+  ]) : super(message, stackTrace);
+}
+
 class PhotoRepositoryException extends PhotoException {
-  PhotoRepositoryException(String message) : super(message);
+  PhotoRepositoryException(
+    String message, [
+    StackTrace? stackTrace,
+  ]) : super(message, stackTrace);
 }
 
 class PhotoDatasourceException extends PhotoException {
-  PhotoDatasourceException(String message) : super(message);
+  PhotoDatasourceException(
+    String message, [
+    StackTrace? stackTrace,
+  ]) : super(message, stackTrace);
+}
+
+class LostInternetConnection extends PhotoException {
+  LostInternetConnection(
+    String message, [
+    StackTrace? stackTrace,
+  ]) : super(message, stackTrace);
 }

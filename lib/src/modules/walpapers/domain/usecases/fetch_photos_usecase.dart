@@ -4,7 +4,8 @@ import 'package:fteam_test/src/modules/walpapers/domain/erros/photo_exception.da
 import 'package:fteam_test/src/modules/walpapers/domain/repositories/photo_repository.dart';
 
 abstract class FetchPhotosUsecase {
-  Future<Either<PhotoRepositoryException, List<PhotoEntity>>> call(int apiPage);
+  Future<Either<PhotoException, List<PhotoEntity>>> call(
+      {String? query, required int apiPage, required int perPage});
 }
 
 class FetchPhotosUsecaseImpl implements FetchPhotosUsecase {
@@ -13,12 +14,17 @@ class FetchPhotosUsecaseImpl implements FetchPhotosUsecase {
   FetchPhotosUsecaseImpl(this._repository);
 
   @override
-  Future<Either<PhotoRepositoryException, List<PhotoEntity>>> call(int apiPage) async {
-    
-    if(apiPage is int){
-
+  Future<Either<PhotoException, List<PhotoEntity>>> call(
+      {String? query, required int apiPage, required int perPage}) async {
+    if (apiPage < 1 || perPage < 1) {
+      return left(PhotoParamsException('Parâmetros fora da faixa'));
     }
 
-    return await _repository.fetchPhotos(apiPage);
+    if (query != null && query.trim().isEmpty) {
+      return left(PhotoParamsException('Favor preencher a pesquisa'));
+    }
+
+    return await _repository.fetchPhotos(
+        query: query, apiPage: apiPage, perPage: perPage);
   }
 }

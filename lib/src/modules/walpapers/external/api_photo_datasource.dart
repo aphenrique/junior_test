@@ -10,26 +10,43 @@ class ApiPhotoDatasource implements PhotoDatasource {
   ApiPhotoDatasource(this.service);
 
   @override
-  Future<List<PhotoEntity>> fetchPhotos(int page) async {
-    final result =
-        await service.get('curated?page=${page.toString}&per_page=20');
+  Future<List<PhotoEntity>> fetchPhotos(
+      {required int apiPage, required int perPage}) async {
+    try {
+      final result =
+          await service.get("curated?page=$apiPage&per_page=$perPage");
 
-    var list = result['photos'] as List;
+      var list = result['photos'] as List;
 
-    List<PhotoEntity> photos =
-        list.map((e) => PhotoEntityDto.fromMap(e)).toList();
+      List<PhotoEntity> photos =
+          list.map((e) => PhotoEntityDto.fromMap(e)).toList();
 
-    return photos;
+      return photos;
+    } on LostInternetConnection catch (_) {
+      throw PhotoDatasourceException(
+          'Falha na conexão, \ntente novamente mais tarde!');
+    } catch (e) {
+      throw PhotoDatasourceException(e.toString());
+    }
   }
 
   @override
-  Future<PhotoEntity> getPhotoById(int photoId) async {
+  Future<List<PhotoEntity>> searchPhotos(
+      {required String query,
+      required int apiPage,
+      required int perPage}) async {
     try {
-      final result = await service.get('photos/$photoId');
+      final result = await service
+          .get("search?query=$query&page=$apiPage&per_page=$perPage");
 
-      final PhotoEntity photo = PhotoEntityDto.fromMap(result);
+      var list = result['photos'] as List;
 
-      return photo;
+      List<PhotoEntity> photos =
+          list.map((e) => PhotoEntityDto.fromMap(e)).toList();
+
+      return photos;
+    } on LostInternetConnection catch (_) {
+      throw PhotoDatasourceException('Falha na conexão!');
     } catch (e) {
       throw PhotoDatasourceException(e.toString());
     }
