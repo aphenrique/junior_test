@@ -6,8 +6,10 @@ import 'package:uno/uno.dart';
 
 class UnoService implements HttpService {
   final Uno uno = Uno(
-      baseURL: 'https://api.pexels.com/v1/',
-      headers: {'Authorization': EnvironmentConfig.apiToken});
+    baseURL: 'https://api.pexels.com/v1/',
+    headers: {'Authorization': EnvironmentConfig.apiToken},
+    timeout: const Duration(seconds: 20),
+  );
 
   @override
   Future<Map<String, dynamic>> get(String url) async {
@@ -16,7 +18,7 @@ class UnoService implements HttpService {
 
       return result.data;
     } else {
-      throw LostInternetConnection('Falhas na conexão');
+      throw LostInternetConnection('Falha na conexão');
     }
   }
 
@@ -30,7 +32,7 @@ class UnoService implements HttpService {
 
       return result.data;
     } else {
-      throw LostInternetConnection('Falhas na conexão');
+      throw LostInternetConnection('Falha na conexão');
     }
   }
 }
